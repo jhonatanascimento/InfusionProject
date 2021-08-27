@@ -33,7 +33,9 @@
     <header class="header">
       <a href="index.html" class="logo-text">INFUSION</a>
 
-      <button style="display: none;" class="header__btnMenu">Menu</button>
+      <button style="display: none;" class="header__btnMenu">
+        <i class="fas fa-bars fa-2x"></i><span class="sr-only">Menu</span>
+      </button>
 
       <nav class="header__nav">
         <ul>
@@ -259,33 +261,102 @@
 
     <footer class="footer">
       <div class="container">
-          h2>INFUSION</h2>
+        <h2 class="footer__logo">INFUSION</h2>
 
-          <p>
-            Nam mi enim, auctor non ultricies a, fringilla eu risus. Praesent vitae
-            lorem et elit tincidunt accumsan suscipit eu libero. Maecenas diam est,
-            venenatis vitae dui in, vestibulum mollis arcu. Donec eu nibh tincidunt,
-            dapibus sem eu, aliquam dolor. Cum sociis natoque penatibus et magnis
-            dis parturient montes, nascetur ridiculus mus. Vestibulum consectetur
-            commodo eros, vitae laoreet lectus aliq
-          </p>
-    
-          <p>
-            aliquam dolor. Cum sociis natoque penatibus et magnis dis parturient
-            montes, nascetur ridiculus mus. Vestibulum consectetur commodo eros,
-            vitae laoreet lectus aliq
-          </p>
-    
-          <ul class="footer__links">
-            <li><a href="#">List One</a></li>
-            <li><a href="#">Page Two</a></li>
-            <li><a href="#">Design</a></li>
-            <li><a href="#">Work</a></li>
-            <li><a href="#">Contact Me</a></li>
-          </ul>
+        <p>
+          Nam mi enim, auctor non ultricies a, fringilla eu risus. Praesent
+          vitae lorem et elit tincidunt accumsan suscipit eu libero. Maecenas
+          diam est, venenatis vitae dui in, vestibulum mollis arcu. Donec eu
+          nibh tincidunt, dapibus sem eu, aliquam dolor. Cum sociis natoque
+          penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+          Vestibulum consectetur commodo eros, vitae laoreet lectus aliq
+        </p>
 
+        <p>
+          aliquam dolor. Cum sociis natoque penatibus et magnis dis parturient
+          montes, nascetur ridiculus mus. Vestibulum consectetur commodo eros,
+          vitae laoreet lectus aliq
+        </p>
 
+        <ul class="footer__links">
+          <li><a href="#">List One</a></li>
+          <li><a href="#">Page Two</a></li>
+          <li><a href="#">Design</a></li>
+          <li><a href="#">Work</a></li>
+          <li><a href="#">Contact Me</a></li>
+        </ul>
       </div>
     </footer>
+
+    <script>
+      function Menu(config) {
+        this.nav =
+          typeof config.container === "string"
+            ? document.querySelector(config.container)
+            : config.container;
+
+        this.btn =
+          typeof config.toggleBtn === "string"
+            ? document.querySelector(config.toggleBtn)
+            : config.toggleBtn;
+
+        this.maxWidth = config.widthEnabled || false;
+
+        var _opened = false;
+        var _this = this;
+
+        this.btn.removeAttribute("style");
+        closeMenu();
+
+        this.btn.addEventListener("click", openOrClose);
+
+        function openOrClose() {
+          if (!_opened) {
+            openMenu();
+          } else {
+            closeMenu();
+          }
+        }
+
+        function openMenu() {
+          var _top = _this.nav.getBoundingClientRect().top + "px";
+          var _style = {
+            maxHeight: "calc(100vh - " + _top + ")",
+            overflow: "hidden"
+          };
+
+          applyStyleToNav(_style);
+          _opened = true;
+        }
+
+        function applyStyleToNav(_style) {
+          Object.keys(_style).forEach((stl) => {
+            _this.nav.style[stl] = _style[stl];
+          });
+        }
+
+        function closeMenu() {
+          var _style = {
+            maxHeight: "0px",
+            overflow: "hidden"
+          };
+          applyStyleToNav(_style);
+          _opened = false;
+        }
+      }
+
+      (function () {
+        var $body = document.querySelector("body");
+
+        $body.classList.remove("no-js");
+        $body.classList.add("js");
+
+        var menu = new Menu({
+          container: ".header__nav",
+          toggleBtn: ".header__btnMenu",
+          widthEnabled: 1280
+        });
+      })();
+    </script>
   </body>
 </html>
